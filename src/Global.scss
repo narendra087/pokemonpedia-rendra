@@ -1,0 +1,87 @@
+$normal: #A9A878;
+$fight: #C13129;
+$flying: #97A3DF;
+$poison: #B85C9D;
+$ground: #E7D4A9;
+$rock: #BEA563;
+$bug: #A9BD42;
+$ghost: #6765AE;
+$steel: #AFADC3;
+$fire: #FE4833;
+$water: #1B91F5;
+$grass: #74D76A;
+$electric: #FEC447;
+$physic: #FF6B9F;
+$ice: #47CEE4;
+$dragon: #8666EB;
+$dark: #765A4E;
+$fairy: #FDB6F2;
+
+p, label {
+  margin: 0;
+}
+a {
+  text-decoration: none;
+}
+.container {
+  max-width: 900px;
+  padding: 20px 40px;
+  margin: 0 auto;
+}
+
+.bg {
+  &__normal {
+    background: $normal;
+  }
+  &__fight {
+    background: $fight;
+  }
+  &__flying {
+    background: $flying;
+  }
+  &__poison {
+    background: $poison;
+  }
+  &__ground {
+    background: $ground;
+  }
+  &__rock {
+    background: $rock;
+  }
+  &__bug {
+    background: $bug;
+  }
+  &__ghost {
+    background: $ghost;
+  }
+  &__steel {
+    background: $steel;
+  }
+  &__fire {
+    background: $fire;
+  }
+  &__water {
+    background: $water;
+  }
+  &__grass {
+    background: $grass;
+  }
+  &__electric {
+    background: $electric;
+  }
+  &__physic {
+    background: $physic;
+  }
+  &__ice {
+    background: $ice;
+  }
+  &__dragon {
+    background: $dragon;
+  }
+  &__dark {
+    background: $dark;
+  }
+  &__fairy {
+    background: $fairy;
+  }
+}

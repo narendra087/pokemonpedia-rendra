@@ -1,12 +1,16 @@
 import '../assets/scss/Header.scss';
+import logo from '../assets/images/pokemonpedia.png'
+import {
+  Link
+} from 'react-router-dom';
 
 const Header = () => {
   return ( 
     <div className="header">
-      <h1>Pokemonpedia</h1>
+      <img src={logo} alt="pokemonpedia" />
       <div className="header__links">
-        <a href="/" className="header__links__item">Home</a>
-        <a href="/my-pokemon" className="header__links__item">My Pokemon</a>
+        <Link className="header__links__item" to='/'>Home</Link>
+        <Link className="header__links__item" to='/my-pokemon'>My Pokemon</Link>
       </div>
     </div>
   );
