@@ -5,21 +5,46 @@ $line: #3d6db4;
   position: relative;
   width: 100%;
   border-radius: 10px;
-  background: $bg-card;
+  // background: $bg-card;
   // border: 2px solid $line;
   box-shadow: 0px 0px 10px 0px rgba(61,109,180,0.3);
   &:hover {
     box-shadow: 0px 0px 10px 0px rgba(61,109,180,0.8);
+    .pokemon__img__bg {
+      animation: rotating 2s linear infinite;
+    }
   }
   &__content {
-    padding: 10px;
+    padding: 30px 20px 20px;
+  }
+  &__id {
+    background: rgba(255,255,255,0.3);
+    height: 20px;
+    width: 100%;
+    text-align: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-radius: 10px 10px 0 0;
+  }
+  &__counter {
+    background: rgba(255,255,255,0.3);
+    border-radius: 50px;
+    width: fit-content;
+    padding: 2px 5px;
+    margin: 10px auto 0;
+    font-weight: 700;
+    color: #000;
+    font-size: 12px;
   }
   &__name {
-    color: #000;
+    color: #FFF;
+    text-transform: capitalize;
+    font-weight: 700;
     font-size: 20px;
     line-height: 20px;
-    margin-top: 10px;
     text-align: center;
+    width: auto;
   }
   &__attr {
     display: flex;
@@ -31,6 +56,7 @@ $line: #3d6db4;
       position: relative;
       padding: 5px 10px;
       border-radius: 50px;
+      background: rgba(255,255,255,0.3);
       &:not(:last-child) {
         margin-right: 5px;
       }
@@ -40,20 +66,30 @@ $line: #3d6db4;
         font-size: 14px;
         line-height: 1;
         font-weight: 700;
+        color: #000;
       }
     }
   }
 
   &__img {
-    border: 1px solid $line;
+    // border: 1px solid $line;
     border-radius: 10px;
     position: relative;
     display: flex;
     justify-content: center;
     padding: 10px;
-    img {
+    &__sprite {
       position: relative;
       width: 100%;
+    }
+    &__bg {
+      position: absolute;
+      width: 90%;
+      opacity: 0.3;
+      &--loading {
+        position: relative;
+        animation: rotating 2s linear infinite;
+      }
     }
   }
 }

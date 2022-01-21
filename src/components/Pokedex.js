@@ -26,7 +26,6 @@ function Pokedex() {
 
   return (
     <div>
-      <h3>Pokemon list</h3>
       {
         (loading)?(
           <p className="loading-text">Loading..</p>

@@ -16,21 +16,19 @@ import {
 ReactDOM.render(
   <React.StrictMode>
     <Router>
-      <Layout>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/pokemon/:pokemon" element={<Detail />} />
-          <Route path="/my-pokemon" element={<Profile />} />
-          <Route
-            path="*"
-            element={
-              <main style={{padding:"1rem"}}>
-                <span>There's nothing here!</span>
-              </main>
-            }
-          />
-        </Routes>
-      </Layout>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/pokemon/:pokemon" element={<Detail />} />
+        <Route path="/my-pokemon" element={<Profile />} />
+        <Route
+          path="*"
+          element={
+            <main style={{padding:"1rem"}}>
+              <span>There's nothing here!</span>
+            </main>
+          }
+        />
+      </Routes>
     </Router>
   </React.StrictMode>,
   document.getElementById('root')

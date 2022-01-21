@@ -7,9 +7,9 @@ $rock: #BEA563;
 $bug: #A9BD42;
 $ghost: #6765AE;
 $steel: #AFADC3;
-$fire: #FE4833;
+$fire: #FA6D6D;
 $water: #1B91F5;
-$grass: #74D76A;
+$grass: #49D0B0;
 $electric: #FEC447;
 $physic: #FF6B9F;
 $ice: #47CEE4;
@@ -17,11 +17,15 @@ $dragon: #8666EB;
 $dark: #765A4E;
 $fairy: #FDB6F2;
 
+$bg-card: #FFCD00;
+$line: #3d6db4;
+
 p, label {
   margin: 0;
 }
 a {
   text-decoration: none;
+  color: #000;
 }
 .container {
   max-width: 900px;
@@ -83,5 +87,30 @@ a {
   }
   &__fairy {
     background: $fairy;
+  }
+}
+
+::-webkit-scrollbar {
+  width: 5px; 
+  background: $bg-card;
+}
+::-webkit-scrollbar-thumb {
+  background: $line;
+}
+
+@-webkit-keyframes rotating /* Safari and Chrome */ {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes rotating {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
   }
 }
