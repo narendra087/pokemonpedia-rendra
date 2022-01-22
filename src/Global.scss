@@ -1,5 +1,5 @@
 $normal: #A9A878;
-$fight: #C13129;
+$fighting: #C13129;
 $flying: #97A3DF;
 $poison: #B85C9D;
 $ground: #E7D4A9;
@@ -11,7 +11,7 @@ $fire: #FA6D6D;
 $water: #1B91F5;
 $grass: #49D0B0;
 $electric: #FEC447;
-$physic: #FF6B9F;
+$psychic: #FF6B9F;
 $ice: #47CEE4;
 $dragon: #8666EB;
 $dark: #765A4E;
@@ -20,6 +20,12 @@ $fairy: #FDB6F2;
 $bg-card: #FFCD00;
 $line: #3d6db4;
 
+
+* {
+  box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
 p, label {
   margin: 0;
 }
@@ -27,6 +33,12 @@ a {
   text-decoration: none;
   color: #000;
 }
+
+.App {
+  min-height: 100vh;
+  background: #eefaff;
+}
+
 .container {
   max-width: 900px;
   padding: 20px 40px;
@@ -37,8 +49,8 @@ a {
   &__normal {
     background: $normal;
   }
-  &__fight {
-    background: $fight;
+  &__fighting {
+    background: $fighting;
   }
   &__flying {
     background: $flying;
@@ -73,8 +85,8 @@ a {
   &__electric {
     background: $electric;
   }
-  &__physic {
-    background: $physic;
+  &__psychic {
+    background: $psychic;
   }
   &__ice {
     background: $ice;
@@ -87,6 +99,27 @@ a {
   }
   &__fairy {
     background: $fairy;
+  }
+}
+
+.btn {
+  cursor: pointer;
+  border-radius: 10px;
+  padding: 0 15px;
+  min-width: 160px;
+  height: 40px;
+  font-weight: 700;
+  &:hover {
+    box-shadow: 0px 0px 10px 0px rgba(61,109,180,0.5);
+  }
+  &:disabled {
+    box-shadow: unset;
+    cursor: wait;
+  }
+  &__primary {
+    background: $line;
+    border: 1px solid $line;
+    color: $bg-card;
   }
 }
 
