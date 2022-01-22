@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import '../assets/scss/Popup.scss'
 
 function Popup(props) {
-  const [nickname, setNickname] = useState([])
+  const [nickname, setNickname] = useState('')
 
   function handleChange(e) {
     setNickname(e.target.value)
