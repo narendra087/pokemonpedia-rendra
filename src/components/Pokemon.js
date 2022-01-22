@@ -1,29 +1,38 @@
 import axios from 'axios';
 import React, { useState, useEffect } from 'react'
+import { useSelector, useDispatch } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 import '../assets/scss/Pokemon.scss'
 import pokewhite from '../assets/images/pokewhite.png'
 import PokemonPlaceholder from './PokemonPlaceholder';
+import { removePokemon } from '../redux/pokemonSlice';
 
 
 function Pokemon(props) {
   const [data, setData] = useState(null)
   const [loading, isLoading] = useState(true)
-  const [count, setCount] = useState(0)
+
+  const myPokemon = useSelector((state) => state.pkmn.myPokemon);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    function getData() {
-      axios.get(props.url)
-        .then(res => {
-          console.log(res);
-          setData(res.data);
-          isLoading(false)
-        }).catch(err => {
-          // console.log(err)
-        });
+    if (props.isProfile) {
+      setData(props.data)
+      isLoading(false)
+    } else {
+      function getData() {
+        axios.get(props.url ? props.url : `https://pokeapi.co/api/v2/pokemon/${props.name}`)
+          .then(res => {
+            setData(res.data);
+            isLoading(false)
+          }).catch(err => {
+            // console.log(err)
+          });
+      }
+      getData()
     }
-    getData()
-  }, [props.url])
+  }, [props])
 
   function getAllType(types) {
     let typeClass = '';
@@ -51,6 +60,35 @@ function Pokemon(props) {
     return id
   }
 
+  function countPokemon(name) {
+    let count = 0;
+    if (myPokemon && myPokemon.length) {
+      count = myPokemon.filter(obj => obj.name === name)
+      return count.length
+    }
+    return count
+  }
+
+  function releasePokemon() {
+    dispatch(removePokemon(data.catchId))
+  }
+
+  const ReleaseButton = () => {
+    if (props.isProfile) {
+      return <button className='btn btn__primary pokemon__release' onClick={() => {releasePokemon()}}>Release</button>
+    } else {
+      return ''
+    }
+  }
+
+  const OwnedPokemon = () => {
+    if (!props.isProfile) {
+      return <p>Owned: <span>{countPokemon(data.name)}</span></p>
+    } else {
+      return ''
+    }
+  }
+
   return (
     <div>
       
@@ -58,28 +96,40 @@ function Pokemon(props) {
           (loading)?(
             <PokemonPlaceholder />
           ) : (
-          <div className={`pokemon bg__${data.types[0].type.name}`}>
-            <div className="pokemon__content">
-            <div className="pokemon__id">
-              <p>{getId(data.id)}</p>
-              <p>Owned: <span>{count}</span></p>
-            </div>
-            {/* <div className="pokemon__dot"><p>0</p></div> */}
-            <p className="pokemon__name">{props.name}</p>
-            {/* <div className="pokemon__counter">Owned: 0</div> */}
-              <div className="pokemon__img">
-                <img className='pokemon__img__bg' src={pokewhite} alt="" />
-                <img className='pokemon__img__sprite' loading='lazy' src={data && data.sprites ? getImage(data.sprites) : ''} alt="" />
-              </div>
-              <div className={`pokemon__attr${data ? getAllType(data.types) : ''}`}>
-                {data.types.map((ty, index) => (
-                  <div className={`pokemon__attr__type`} key={index}>
-                    <p>{ty.type.name}</p>
+            <div>
+              <Link to={`/pokemon/${data.name}`}>
+                <div className={`pokemon bg__${data.types[0].type.name}`}>
+                  <div className="pokemon__content">
+                  <div className="pokemon__id">
+                    <p>{getId(data.id)}</p>
+                    <OwnedPokemon />
                   </div>
-                ))}
-              </div>
+                  {
+                    (props.isProfile) ? (
+                      <div>
+                        <p className="pokemon__nickname">{data.nickname}<span>the</span></p>
+                        <p className="pokemon__name">{data.name}</p>
+                      </div>
+                    ) : (
+                      <p className="pokemon__name">{data.name}</p>
+                    )
+                  }
+                    <div className="pokemon__img">
+                      <img className='pokemon__img__bg' src={pokewhite} alt="" />
+                      <img className='pokemon__img__sprite' loading='lazy' src={data && data.sprites ? getImage(data.sprites) : ''} alt="" />
+                    </div>
+                    <div className={`pokemon__attr${data ? getAllType(data.types) : ''}`}>
+                      {data.types.map((ty, index) => (
+                        <div className={`pokemon__attr__type`} key={index}>
+                          <p>{ty.type.name}</p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </Link>
+              <ReleaseButton />
             </div>
-          </div>
           )
         }
     </div>

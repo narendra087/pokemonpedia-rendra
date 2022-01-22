@@ -4,32 +4,41 @@ import './index.css';
 import Home from './pages/Home';
 import Detail from './pages/Detail';
 import Profile from './pages/Profile';
-import Layout from './layout/Layout'
+
+import store from './redux/store';
+import { PersistGate } from 'redux-persist/integration/react'
+import { persistStore } from 'redux-persist'
+import { Provider } from 'react-redux';
+
 import {
   BrowserRouter as Router, 
   Routes, 
   Route
 } from 'react-router-dom';
-// import App from './App';
-// import reportWebVitals from './reportWebVitals';
+
+let persistor = persistStore(store);
 
 ReactDOM.render(
   <React.StrictMode>
-    <Router>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/pokemon/:pokemon" element={<Detail />} />
-        <Route path="/my-pokemon" element={<Profile />} />
-        <Route
-          path="*"
-          element={
-            <main style={{padding:"1rem"}}>
-              <span>There's nothing here!</span>
-            </main>
-          }
-        />
-      </Routes>
-    </Router>
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
+        <Router>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/pokemon/:pokemon" element={<Detail />} />
+            <Route path="/my-pokemon" element={<Profile />} />
+            <Route
+              path="*"
+              element={
+                <main style={{padding:"1rem"}}>
+                  <span>There's nothing here!</span>
+                </main>
+              }
+            />
+          </Routes>
+        </Router>
+      </PersistGate>
+    </Provider>
   </React.StrictMode>,
   document.getElementById('root')
 );

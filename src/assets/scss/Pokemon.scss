@@ -47,6 +47,20 @@ $line: #3d6db4;
     color: #000;
     font-size: 12px;
   }
+  &__nickname {
+    color: #FFF;
+    text-transform: capitalize;
+    font-weight: 700;
+    line-height: 1;
+    text-align: center;
+    width: auto;
+    span {
+      margin-top: 5px;
+      margin-bottom: 5px;
+      display: block;
+      font-size: 12px;
+    }
+  }
   &__name {
     color: #FFF;
     text-transform: capitalize;
@@ -101,5 +115,12 @@ $line: #3d6db4;
         animation: rotating 2s linear infinite;
       }
     }
+  }
+
+  &__release {
+    margin-top: 10px;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
   }
 }

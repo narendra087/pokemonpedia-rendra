@@ -1,0 +1,56 @@
+$bg-card: #FFCD00;
+$line: #3d6db4;
+
+.popup {
+  position: fixed;
+  background: #00000050;
+  width: 100%;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  z-index: 10;
+  &__box {
+    position: relative;
+    width: 100%;
+    max-width: 300px;
+    height: auto;
+    background: #eefaff;
+    border-radius: 4px;
+    padding: 20px;
+    border: 5px solid $line;
+    overflow: auto;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 15px;
+  }
+  &__close {
+    content: 'x';
+    cursor: pointer;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: $line;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    line-height: 20px;
+    text-align: center;
+    border: 1px solid $line;
+    font-size: 20px;
+    z-index: 1;
+    color: #eefaff;
+  }
+  &__title {
+    font-size: 20px;
+    line-height: 25px;
+  }
+  &__image {
+    width: 100%;
+    padding: 20px;
+  }
+  &__action {
+    text-align: center;
+    margin-top: 20px;
+  }
+}

@@ -5,7 +5,7 @@ function Home() {
   return (
     <Layout>
       <div className="content__home">
-          <Pokedex />
+          <Pokedex isProfile={false} />
       </div>
     </Layout>
   );

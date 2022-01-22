@@ -1,21 +1,27 @@
 import axios from 'axios';
 import React, { useState, useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
-import Layout from '../layout/Layout'
+import { useSelector, useDispatch } from 'react-redux';
+import { addPokemon } from '../redux/pokemonSlice';
 
+import Layout from '../layout/Layout'
+import Popup from '../components/Popup';
 import pokewhite from '../assets/images/pokewhite.png'
-import pokeball from '../assets/images/pokeball.png'
-// import '../assets/scss/Detail.scss'
-import '../assets/scss/NewDetail.scss'
+
+import '../assets/scss/Detail.scss'
+import { idGenerator } from '../utils/idGenerator';
 
 function Detail(props) {
   const [name, setName] = useState([])
   const [pokemon, setPokemon] = useState(null)
   const [loading, isLoading] = useState(true)
-  const [isHover, setHover] = useState(false)
   const [catching, isCatching] = useState(false)
+  const [popupOpened, setPopup] = useState('')
 
   const path = useLocation().pathname
+
+  const myPokemon = useSelector((state) => state.pkmn.myPokemon);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const arrName = path.split('/')
@@ -33,22 +39,36 @@ function Detail(props) {
     }
   }
 
-  const toggleHover = () => {
-    setHover(!isHover)
+  const togglePopup = (name) => {
+    setPopup(name)
   }
 
   const catchPokemon = () => {
     isCatching(true)
-
     setTimeout(() => {
+      if (Math.random() <= 0.5) {
+        togglePopup('catch-failed')
+      } else {
+        togglePopup('catch-success')
+      }
       isCatching(false)
     }, 3000);
+  }
+
+  const savePokemon = (name) => {
+    const tempData = {
+      nickname: name || pokemon.name,
+      catchId: idGenerator(),
+      ...pokemon
+    }
+    dispatch(addPokemon(tempData))
+    setPopup('')
   }
 
   function getDetailPokemon(pokemonName) {
     axios.get(`https://pokeapi.co/api/v2/pokemon/${pokemonName}`)
         .then(res => {
-          console.log(res);
+          // console.log(res);
           setPokemon(res.data);
           isLoading(false)
         }).catch(err => {
@@ -99,47 +119,25 @@ function Detail(props) {
             <button className='btn btn__primary' disabled={catching ? true : false} onClick={() => {catchPokemon()}}>{catching ? 'Catching...' : 'Catch Pokemon'}</button>
           </div>
           <div className="detail__pokemon__stats">
-
           </div>
-          {/* <div className="detail__pokemon__info">
-            <div className="pokemon__info">
-              <p className="pokemon__info__name">
-                {pokemon.name}
-              </p>
-              <div className="pokemon__info__types">
-              {pokemon.types.map((ty, index) => (
-                <p className="pokemon__type" key={index}>{ty.type.name}</p>
-              ))}
-              </div>
-              <div className="pokemon__info__stats">
-                <p className="pokemon__info__title">Status</p>
-              {pokemon.stats.map((st, index) => (
-                <p className="pokemon__stat" key={index}>{st.stat.name}
-                  <span className="pokemon__stat__base">{st.base_stat}</span>
-                </p>
-              ))}
-              </div>
-              <div className="pokemon__info__moves">
-                <p className="pokemon__info__title">Moves</p>
-                <div className="pokemon__move">
-                {pokemon.moves.map((mv, index) => (
-                  <p className="pokemon__move__name" key={index}>{mv.move.name.replace('-', ' ')}</p>
-                ))}
-                </div>
-              </div>
-            </div>
-          </div> */}
-          {/* <div className="detail__pokemon__section">
-            <div className="pokemon__section__image">
-              <img loading='lazy' src={pokemon && pokemon.sprites ? getImage(pokemon.sprites) : ''} alt="" />
-            </div>
-            <div className="pokemon__section__ball">
-              <img className={`${isHover && !isThrowing ? 'rotating' : ''} ${isThrowing ? 'throw' : ''}`} src={pokeball} onMouseEnter={toggleHover} onMouseLeave={toggleHover} onMouseDown={catchPokemon} alt="" />
-              <p>Catch the pokemon!</p>
-            </div>
-          </div> */}
         </div>
         )}
+        {popupOpened === 'catch-failed' && <Popup
+          content={<>
+            <p className='popup__title'>Pokemon run away!</p>
+          </>}
+          handleClose={togglePopup}
+        />}
+        {popupOpened === 'catch-success' && <Popup
+          content={<>
+            <p className='popup__title'>Name your partner!</p>
+            <img className='popup__image' src={pokemon && pokemon.sprites ? getImage(pokemon.sprites) : ''} alt="" />
+          </>}
+          handleClose={togglePopup}
+          handleSave={savePokemon}
+          defaultName={pokemon ? pokemon.name : ''}
+          withInput={true}
+        />}
       </div>
     </Layout>
   )
