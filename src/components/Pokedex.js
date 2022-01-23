@@ -51,6 +51,15 @@ function Pokedex(props) {
     return arrPlaceholder;
   }
 
+  const noPokemon = () => {
+    if (props.isProfile && !myPokemon.length) {
+      return <div className='no__pokemon'>
+        <img src={pokeball} alt="" width="50px" height="50px" />
+        <p>You haven't caught any pokemon yet.</p>
+      </div>
+    }
+  }
+
   return (
     <div>
       {
@@ -67,6 +76,7 @@ function Pokedex(props) {
                 </li>
               ))}
             </ul>
+            {noPokemon()}
             {
               (!props.isProfile) ? (
                 <div className="load__pokemon">
@@ -78,7 +88,7 @@ function Pokedex(props) {
                   )
                 }
                 </div>
-              ) : (<div></div>)
+              ) : ('')
             }
           </div>
         )
