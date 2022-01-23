@@ -42,6 +42,18 @@ input {
   border: 1px solid $line;
 }
 
+.form {
+  &__alert {
+    font-size: 12px;
+    line-height: 1;
+    margin-top: 5px;
+    color: $fire;
+  }
+  &__invalid {
+    border-color: $fire;
+  }
+}
+
 progress {
   -webkit-appearance: none;
   appearance: none;
