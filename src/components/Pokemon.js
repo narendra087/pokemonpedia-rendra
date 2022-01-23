@@ -57,7 +57,7 @@ function Pokemon(props) {
       }
       return `#0${id}`
     }
-    return id
+    return `#${id}`
   }
 
   function countPokemon(name) {

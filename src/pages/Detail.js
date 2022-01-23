@@ -7,6 +7,7 @@ import { addPokemon } from '../redux/pokemonSlice';
 import Layout from '../layout/Layout'
 import Popup from '../components/Popup';
 import pokewhite from '../assets/images/pokewhite.png'
+import pokeball from '../assets/images/pokeball.png'
 
 import '../assets/scss/Detail.scss'
 import { idGenerator } from '../utils/idGenerator';
@@ -24,10 +25,18 @@ function Detail(props) {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: 'smooth'
+    })
     const arrName = path.split('/')
     if (arrName.length === 3) {
-      setName(arrName[arrName.length - 1])
-      getDetailPokemon(arrName[arrName.length - 1])
+      const pokeName = arrName[arrName.length - 1]
+      setName(pokeName)
+      getDetailPokemon(pokeName)
+
+      document.title = `${capitalizeFirst(pokeName)} | Pokemonpedia`
     }
   }, [path])
 
@@ -39,8 +48,8 @@ function Detail(props) {
     }
   }
 
-  const togglePopup = (name) => {
-    setPopup(name)
+  const togglePopup = (popup) => {
+    setPopup(popup)
   }
 
   const catchPokemon = () => {
@@ -79,11 +88,18 @@ function Detail(props) {
   function getId(id) {
     if (id < 100) {
       if (id < 10) {
-        return `00${id}`
+        return `#00${id}`
       }
-      return `0${id}`
+      return `#0${id}`
     }
-    return id
+    return `#${id}`
+  }
+
+  function capitalizeFirst(string) {
+    if (!string) {
+      return ''
+    }
+    return string.charAt(0).toUpperCase() + string.slice(1);
   }
 
   return (
@@ -92,33 +108,51 @@ function Detail(props) {
       {
         (loading)?(
           <div className="detail__pokemon">
-            <p className="detail__loading">Loading</p>
+            <div className="detail__pokemon__loading">
+              <img src={pokeball} alt="" />
+            </div>
           </div>
         ) : (
         <div className="detail__pokemon">
           <div className={`detail__pokemon__image`}>
-            <div className={`detail__pokemon__id bg__${pokemon.types[0].type.name}`}>
-              {getId(pokemon.id)}
-            </div>
-            <div className={`pokemon__image bg__${pokemon.types[0].type.name}${catching ? ' catching' : ''}`}>
+            <div className={`pokemon__image bg__${pokemon.types[0].type.name}`}>
               <img className={`pokemon__image__bg`} loading='lazy' src={pokewhite} alt="" />
+              <img src={pokeball} alt="" className={`pokemon__image__pokeball${catching ? ' catching' : ''}`} />
               <img className={`pokemon__image__sprite${catching ? ' catching' : ''}`} loading='lazy' src={pokemon && pokemon.sprites ? getImage(pokemon.sprites) : ''} alt="" />
             </div>
-            <div className={`detail__pokemon__name bg__${pokemon.types[0].type.name}`}>
-              <p>{pokemon.name}</p>
+            <div className="detail__pokemon__catch">
+              <button className='btn btn__primary' disabled={catching ? true : false} onClick={() => {catchPokemon()}}>{catching ? 'Catching...' : 'Catch Pokemon'}</button>
             </div>
-            <div className={`detail__pokemon__types bg__${pokemon.types[0].type.name}`}>
+          </div>
+          <div className="detail__pokemon__desc">
+            <p className="detail__name">{pokemon.name} {getId(pokemon.id)}</p>
+            <div className={`detail__types`}>
               {pokemon.types.map((ty, index) => (
-                <div className={`pokemon__type__name`} key={index}>
+                <div className={`detail__types__name bg__${ty.type.name}`} key={index}>
                   <p>{ty.type.name}</p>
                 </div>
               ))}
             </div>
-          </div>
-          <div className="detail__pokemon__catch">
-            <button className='btn btn__primary' disabled={catching ? true : false} onClick={() => {catchPokemon()}}>{catching ? 'Catching...' : 'Catch Pokemon'}</button>
-          </div>
-          <div className="detail__pokemon__stats">
+            <div className="detail__stats">
+              <p className="detail__title">Stats</p>
+              {pokemon.stats.map((st, index) => (
+                <div className={`detail__stats__item`} key={index}>
+                  <p className='stat__name'>{st.stat.name.replace('-', ' ').replace('special', 'sp.')}</p>
+                  <div className="stat__progress">
+                    <progress value={st.base_stat} max="100" />
+                    <p className='stat__value'>{st.base_stat}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <div className="detail__moves">
+              <p className="detail__title">Moves</p>
+              <div className="detail__moves__wrapper">
+                {pokemon.moves.map((mv, index) => (
+                  <p className='move__name' key={index}>{mv.move.name}</p>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
         )}
