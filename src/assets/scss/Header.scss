@@ -7,9 +7,10 @@ $bg-card: #FFCD00;
   align-items: center;
   justify-content: space-between;
   padding-bottom: 30px;
-  z-index: 100;
+  z-index: 10;
   @media screen and (max-width: 768px) {
     justify-content: center;
+    padding-bottom: 20px;
   }
   &__links {
     display: flex;
